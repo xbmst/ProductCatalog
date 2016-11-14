@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="container">
+        <div class="row">
+
+            <div class="col s12">
+                <div class="pull right s1" style="margin-bottom: 10px; margin-top: 20px;">
+                    <a href="{{ path('admin_product_new') }}" class="btn">Add <i class="small material-icons">add_circle_outline</i></a>
+                </div>
+
+                <h1>Products</h1>
+                <table class="striped">
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>SKU</th>
+                        <th>Description</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                    </tr>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.category }}</td>
+                            <td>{{ product.sku }}</td>
+                            <td>{{ product.description }}</td>
+                            <td>{{ product.createdAt|date }}</td>
+                            <td>{{ product.updatedAt|date }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body%}

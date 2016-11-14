@@ -1,7 +1,6 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-{{ parent() }}
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -19,7 +18,7 @@
             <input type="hidden" name="_target_path" value="/account" />
         #}
 
-        <button type="submit" class="waves-effect waves-light btn">login</button>
+        <button type="submit" class="btn">login</button>
     </form>
 
 {% endblock body %}
