@@ -16,14 +16,6 @@ class ProductController extends Controller
      */
     public function createAction(ProductCategory $category, Request $request)
     {
-
-    }
-
-    /**
-     * @Route("/show-form", name="show_form")
-     */
-    public function showFormAction(Request $request)
-    {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
