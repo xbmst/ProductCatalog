@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,7 +24,7 @@ class Product
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -54,17 +55,18 @@ class Product
      *
      * @ORM\Column(name="is_active", type="boolean")
      */
-    private $isActive;
+    private $isActive = true;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="sku", type="string", length=12, unique=true)
      */
     private $sku;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProductCategory")
+     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductCategory")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
@@ -175,13 +177,7 @@ class Product
         return $this->updatedAt;
     }
 
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return Product
-     */
+
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;

@@ -1,0 +1,15 @@
+{% extends 'admin/product/formLayout.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col s6">
+                <h2>Edit product</h2>
+                {{ include('admin/product/_form.html.twig', {
+                    'buttonText':'Save'
+                }) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

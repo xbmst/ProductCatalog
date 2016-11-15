@@ -93,5 +93,10 @@ class ProductCategory
     {
         return $this->active;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
 
