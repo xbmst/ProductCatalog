@@ -51,4 +51,29 @@ class ProductAdminController extends Controller
             'productForm' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/product/{id}/edit", name="admin_product_edit")
+     */
+    public function editAction(Request $request, Product $product)
+    {
+        $form = $this->createForm(ProductType::class, $product);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+
+            $this->addFlash('success', 'Product updated.');
+
+            return $this->redirectToRoute('admin_product_list');
+        }
+
+        return $this->render('admin/product/edit.html.twig', [
+            'productForm' => $form->createView()
+        ]);
+    }
 }
