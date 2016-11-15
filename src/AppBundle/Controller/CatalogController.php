@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,9 +16,7 @@ class CatalogController extends Controller
     public function showAction(Request $request)
     {
         $user = $this->getUser();
-        /*if(!$user) {
-            return new RedirectResponse('login');
-        }*/
+
         return $this->render(
             'catalog.html.twig',
             ['user' => $user]
