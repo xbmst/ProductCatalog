@@ -1,13 +1,36 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col s12">
-                <h1>New product</h1>
-
+            <div class="col s6">
+                <h2>New product</h2>
                 {{ include('admin/product/_form.html.twig') }}
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery(document).ready(function() {
+            $('.js-datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15, // Creates a dropdown of 15 years to control year
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
+    <script>
+        jQuery(document).ready(function () {
+            $(document).ready(function() {
+                $('select').material_select();
+            });
+        })
+    </script>
 {% endblock %}

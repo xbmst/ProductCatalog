@@ -7,8 +7,10 @@ use AppBundle\Repository\ProductCategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\DataCollector\Type\DataCollectorTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,8 +32,21 @@ class ProductType extends AbstractType {
             ])
             ->add('sku', TextType::class)
 
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('createdAt', DateType::class, [
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'js-datepicker'
+                ],
+                'html5' => false,
+            ])
+
+            ->add('updatedAt', DateType::class, [
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'js-datepicker'
+                ],
+                'html5' => false,
+            ])
             ->add('isActive', ChoiceType::class, [
                 'choices' => [
                     'Yes' => true,

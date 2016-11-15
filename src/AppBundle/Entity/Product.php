@@ -54,7 +54,7 @@ class Product
      *
      * @ORM\Column(name="is_active", type="boolean")
      */
-    private $isActive;
+    private $isActive = true;
 
     /**
      * @var string
@@ -64,7 +64,7 @@ class Product
     private $sku;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProductCategory")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductCategory")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
@@ -175,13 +175,7 @@ class Product
         return $this->updatedAt;
     }
 
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return Product
-     */
+
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
