@@ -11,6 +11,7 @@ use AppBundle\Entity\PasswordRecovery;
 
 class SecurityController extends Controller
 {
+
     /**
      * @Route("/login", name="login")
      */
