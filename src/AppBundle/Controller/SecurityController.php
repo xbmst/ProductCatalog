@@ -22,7 +22,6 @@ class SecurityController extends Controller
         ]);
 
         return $this->render('security/login.html.twig', array(
-            //'last_username' => $lastUsername,
             'form' => $form->createView(),
             'error' => $error,
         ));

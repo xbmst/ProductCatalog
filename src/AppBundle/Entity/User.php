@@ -57,7 +57,7 @@ class User implements UserInterface
 
     public function getUsername()
     {
-        return $this->email;
+        return $this->username;
     }
 
     public function __construct()
@@ -165,4 +165,10 @@ class User implements UserInterface
         $this->plainPassword = $plainPassword;
         $this->password = null;
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
 }
