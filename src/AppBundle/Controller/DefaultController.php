@@ -10,13 +10,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="homepage")
      */
-    public function defaultAction(Request $request)
+    public function defaultAction()
     {
-        $user = $this->getUser();
-        $path = $user ? 'catalog' : 'login';
 
-        return new RedirectResponse($path);
+        return $this->render(
+        'default/index.html.twig'
+        );
     }
 }

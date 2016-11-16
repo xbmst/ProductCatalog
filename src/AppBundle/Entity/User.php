@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 namespace AppBundle\Entity;
@@ -181,3 +182,179 @@ class User implements UserInterface, \Serializable
         return $this->isActive;
     }
 }
+=======
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Role\Role;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ * @UniqueEntity(fields={"email"}, message="This email is already taken.")
+ */
+class User implements UserInterface
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * @Assert\NotBlank(groups={"Registration"})
+     */
+    private $plainPassword;
+
+
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive = true;
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = [];
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function __construct()
+    {
+        $this->isActive = true;
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid(null, true));
+    }
+
+    public function getSalt()
+    {
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+        return $roles;
+    }
+
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
+    }
+
+        /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return User
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+        $this->password = null;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+}
+>>>>>>> ea22e7c668f4d1d8f998460c961b1444edc08882

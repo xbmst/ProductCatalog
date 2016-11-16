@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+<<<<<<< HEAD
 use AppBundle\Entity\User;
 use AppBundle\Form\PasswordRecoveryType;
+=======
+use AppBundle\Form\LoginForm;
+>>>>>>> ea22e7c668f4d1d8f998460c961b1444edc08882
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\PasswordRecovery;
 
@@ -13,21 +16,26 @@ class SecurityController extends Controller
 {
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/login", name="security_login")
      */
-    public function loginAction(Request $request)
+    public function loginAction()
     {
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('login.html.twig', array(
-            'last_username' => $lastUsername,
+        $form = $this->createForm(LoginForm::class, [
+            '_username' => $lastUsername,
+        ]);
+
+        return $this->render('security/login.html.twig', array(
+            'form' => $form->createView(),
             'error' => $error,
         ));
     }
 
     /**
+<<<<<<< HEAD
      * @Route("/password-recovery", name="password_recovery")
      */
     public function passwordRecoveryAction(Request $request)
@@ -83,5 +91,12 @@ class SecurityController extends Controller
         } else {
             return $this->redirect($this->generateUrl('password_recovery', ['error' => 'Invalid recovery address, try again']));
         }
+=======
+     * @Route("/logout", name="security_logout")
+     */
+    public function logoutAction()
+    {
+        throw new \Exception('this should not be reached');
+>>>>>>> ea22e7c668f4d1d8f998460c961b1444edc08882
     }
 }

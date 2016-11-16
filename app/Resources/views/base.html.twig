@@ -12,6 +12,19 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        <header class="header">
+            <nav>
+
+                <ul>
+                    {% if is_granted('ROLE_USER') %}
+                        <li><a href="{{ path('security_logout') }}" class="btn">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ path('security_login') }}" class="btn">Login</a></li>
+                        <li><a href="{{ path('user_register') }}" class="btn-flat">Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
         {% for msg in app.session.flashBag.get('success') %}
             <div class="container">
                 <div class="row">
