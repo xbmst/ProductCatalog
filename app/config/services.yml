@@ -4,6 +4,10 @@ parameters:
 #    parameter_name: value
 
 services:
-    token_generator:
-        class: AppBundle\Services\TokenGenerator
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    password_recovery:
+        class: AppBundle\Services\PasswordRecoveryService
+        arguments: ["@service_container", "@doctrine.orm.entity_manager"]
+    form_utils:
+        class: AppBundle\Services\FormUtils
+#        arguments: ["@security.password_encoder"]
+# , "plain_value", "%parameter_name%"
