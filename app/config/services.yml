@@ -7,7 +7,9 @@ services:
     password_recovery:
         class: AppBundle\Services\PasswordRecoveryService
         arguments: ["@service_container", "@doctrine.orm.entity_manager"]
+        calls:
+          - [setContainer, ["@service_container"]]
     form_utils:
-        class: AppBundle\Services\FormUtils
+        class: AppBundle\Services\FormUtilsService
 #        arguments: ["@security.password_encoder"]
 # , "plain_value", "%parameter_name%"

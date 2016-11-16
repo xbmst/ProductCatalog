@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Product
+ * Product.
  *
  * @ORM\Table(name="products")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
@@ -72,7 +72,7 @@ class Product
     private $category;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -82,7 +82,7 @@ class Product
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -96,7 +96,7 @@ class Product
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -106,7 +106,7 @@ class Product
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -120,7 +120,7 @@ class Product
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -130,7 +130,7 @@ class Product
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -144,7 +144,7 @@ class Product
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -154,7 +154,7 @@ class Product
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -168,7 +168,7 @@ class Product
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -176,7 +176,6 @@ class Product
     {
         return $this->updatedAt;
     }
-
 
     public function setIsActive($isActive)
     {
@@ -186,7 +185,7 @@ class Product
     }
 
     /**
-     * Get isActive
+     * Get isActive.
      *
      * @return bool
      */
@@ -196,7 +195,7 @@ class Product
     }
 
     /**
-     * Set sku
+     * Set sku.
      *
      * @param string $sku
      *
@@ -210,7 +209,7 @@ class Product
     }
 
     /**
-     * Get sku
+     * Get sku.
      *
      * @return string
      */
@@ -220,7 +219,7 @@ class Product
     }
 
     /**
-     * Set category
+     * Set category.
      *
      * @param \AppBundle\Entity\ProductCategory $category
      *
@@ -234,7 +233,7 @@ class Product
     }
 
     /**
-     * Get category
+     * Get category.
      *
      * @return \AppBundle\Entity\ProductCategory
      */

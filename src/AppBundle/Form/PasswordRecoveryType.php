@@ -2,18 +2,14 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\ProductCategory;
-use AppBundle\Repository\ProductCategoryRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PasswordRecoveryType {
-
+class PasswordRecoveryType
+{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -21,7 +17,7 @@ class PasswordRecoveryType {
             ->add('password', PasswordType::class)
             ->add('password_repeat', RepeatedType::class, array(
                     'type' => PasswordType::class,
-                    'first_options'  => array('label' => 'New password'),
+                    'first_options' => array('label' => 'New password'),
                     'second_options' => array('label' => 'Repeat new password'),
                 )
             );
@@ -33,5 +29,4 @@ class PasswordRecoveryType {
             'data_class' => 'AppBundle\Entity\PasswordRecovery',
         ));
     }
-
 }

@@ -23,7 +23,7 @@ class ProductAdminController extends Controller
             ->findAll();
 
         return $this->render('admin/product/list.html.twig', array(
-            'products' => $products
+            'products' => $products,
         ));
     }
 
@@ -48,7 +48,7 @@ class ProductAdminController extends Controller
         }
 
         return $this->render('admin/product/new.html.twig', [
-            'productForm' => $form->createView()
+            'productForm' => $form->createView(),
         ]);
     }
 
@@ -73,7 +73,7 @@ class ProductAdminController extends Controller
         }
 
         return $this->render('admin/product/edit.html.twig', [
-            'productForm' => $form->createView()
+            'productForm' => $form->createView(),
         ]);
     }
 }

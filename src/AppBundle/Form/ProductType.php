@@ -10,12 +10,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\DataCollector\Type\DataCollectorTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductType extends AbstractType {
-
+class ProductType extends AbstractType
+{
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -23,9 +22,9 @@ class ProductType extends AbstractType {
             ->add('category', EntityType::class, [
                 'placeholder' => 'Choose a category',
                 'class' => ProductCategory::class,
-                'query_builder' => function(ProductCategoryRepository $repo) {
+                'query_builder' => function (ProductCategoryRepository $repo) {
                     return $repo->createAlphabeticalQueryBuilder();
-                }
+                },
             ])
             ->add('description', TextareaType::class, [
                 'empty_data' => 'Enter description',
@@ -35,7 +34,7 @@ class ProductType extends AbstractType {
             ->add('createdAt', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'js-datepicker'
+                    'class' => 'js-datepicker',
                 ],
                 'html5' => false,
             ])
@@ -43,7 +42,7 @@ class ProductType extends AbstractType {
             ->add('updatedAt', DateType::class, [
                 'widget' => 'single_text',
                 'attr' => [
-                    'class' => 'js-datepicker'
+                    'class' => 'js-datepicker',
                 ],
                 'html5' => false,
             ])
@@ -51,7 +50,7 @@ class ProductType extends AbstractType {
                 'choices' => [
                     'Yes' => true,
                     'No' => false,
-                ]
+                ],
             ]);
     }
 
@@ -61,5 +60,4 @@ class ProductType extends AbstractType {
             'data_class' => 'AppBundle\Entity\Product',
         ));
     }
-
 }

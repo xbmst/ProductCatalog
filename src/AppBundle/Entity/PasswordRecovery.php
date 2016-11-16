@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PasswordRecovery
+ * PasswordRecovery.
  *
  * @ORM\Table(name="password_recovery")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PasswordRecoveryRepository")
@@ -41,9 +41,8 @@ class PasswordRecovery
      */
     private $user;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -53,7 +52,7 @@ class PasswordRecovery
     }
 
     /**
-     * Set accessToken
+     * Set accessToken.
      *
      * @param string $accessToken
      *
@@ -67,7 +66,7 @@ class PasswordRecovery
     }
 
     /**
-     * Get accessToken
+     * Get accessToken.
      *
      * @return string
      */
@@ -77,7 +76,7 @@ class PasswordRecovery
     }
 
     /**
-     * Set expires
+     * Set expires.
      *
      * @param string $expires
      *
@@ -91,7 +90,7 @@ class PasswordRecovery
     }
 
     /**
-     * Get expires
+     * Get expires.
      *
      * @return string
      */
@@ -101,7 +100,7 @@ class PasswordRecovery
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param \AppBundle\Entity\User $user
      *
@@ -115,7 +114,7 @@ class PasswordRecovery
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return \AppBundle\Entity\User
      */
