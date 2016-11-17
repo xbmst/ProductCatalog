@@ -35,6 +35,7 @@ class FormUtilsService
             ])
             ->setAction($url)
             ->getForm();
+        return $form;
     }
 
 }

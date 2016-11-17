@@ -47,8 +47,9 @@ class PasswordRecoveryService
     {
         $message = \Swift_Message::newInstance()
             ->setSubject('Registration at ProductCatalog')
-            ->setFrom('exymax@gmail.com')
+            ->setFrom('admin@product-catalog.io')
             ->setTo($email)
+            ->setContentType('text/html')
             ->setBody(
                 $this->templating->render(
                     'password-recovery-email.html.twig', [
@@ -88,9 +89,14 @@ class PasswordRecoveryService
         return $recoveryEntity;
     }
 
-    public function getRecoveryConfirmationForm(FormBuilder $form, $url)
+    public function getRecoveryForm(FormBuilder $builder)
     {
+        return $this->formUtils->getRecoveryForm($builder);
+    }
 
+    public function getRecoveryConfirmationForm(FormBuilder $builder, $url)
+    {
+        return $this->formUtils->getRecoveryConfirmationForm($builder, $url);
     }
 
     public function recover(PasswordRecovery $recovery, $plainPassword)
