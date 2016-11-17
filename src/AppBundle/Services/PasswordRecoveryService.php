@@ -5,7 +5,10 @@ namespace AppBundle\Services;
 use AppBundle\Entity\PasswordRecovery;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
+use Symfony\Component\Validator\Constraints\Email;
 
 class PasswordRecoveryService
 {
@@ -13,17 +16,15 @@ class PasswordRecoveryService
     private $em;
     private $encoder;
     private $templating;
+    private $formUtils;
 
-    public function __construct(EntityManager $em)
+    public function __construct(Container $container, EntityManager $em, UserPasswordEncoder $passwordEncoder)
     {
         $this->em = $em;
-        $this->encoder = $this->container->get('security.password_encoder');
-        $this->templating = $this->container->get('templating');
-    }
-
-    public function setContainer(ContainerInterface $container)
-    {
         $this->container = $container;
+        $this->encoder = $passwordEncoder;
+        $this->templating = $this->container->get('templating');
+        $this->formUtils = $this->container->get('form_utils');
     }
 
     public function generate()
@@ -46,10 +47,10 @@ class PasswordRecoveryService
     {
         $message = \Swift_Message::newInstance()
             ->setSubject('Registration at ProductCatalog')
-            ->setFrom('admin@product_catalog.io')
+            ->setFrom('exymax@gmail.com')
             ->setTo($email)
             ->setBody(
-                $this->templating->renderView(
+                $this->templating->render(
                     'password-recovery-email.html.twig', [
                         'access_token' => $token,
                     ]
@@ -57,6 +58,14 @@ class PasswordRecoveryService
             );
 
         $this->container->get('mailer')->send($message);
+    }
+
+    public function validateEmail($email)
+    {
+        $constraint = new Email();
+        $validator = $this->container->get('validator');
+
+        return $validator->validate($email, $constraint);
     }
 
     public function getUserError(User $user)
@@ -73,14 +82,23 @@ class PasswordRecoveryService
     {
         $recoveryEntity = null;
         if ($token) {
-            $recoveryEntity = $this->em->getRepository('AppBundle:PasswordRecovery')->findBy(['access_token' => $token]);
+            $recoveryEntity = $this->em->getRepository('AppBundle:PasswordRecovery')->findOneBy(['accessToken' => $token]);
         }
 
         return $recoveryEntity;
     }
 
-    public function recover(User $user, $plainPassword, PasswordRecovery $recovery)
+    public function getRecoveryConfirmationForm(FormBuilder $form, $url)
     {
+
+    }
+
+    public function recover(PasswordRecovery $recovery, $plainPassword)
+    {
+        $user = $recovery->getUser();
+        if (!$plainPassword) {
+            return;
+        }
         $password = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($password);
         $this->em->persist($user);

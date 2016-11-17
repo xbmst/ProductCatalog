@@ -2,15 +2,18 @@
 
 namespace AppBundle\Controller;
 
-<<<<<<< HEAD
+
 use AppBundle\Entity\User;
 use AppBundle\Form\PasswordRecoveryType;
-=======
 use AppBundle\Form\LoginForm;
->>>>>>> ea22e7c668f4d1d8f998460c961b1444edc08882
+use AppBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\PasswordRecovery;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\HttpFoundation\Request;
 
 class SecurityController extends Controller
 {
@@ -18,11 +21,12 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="security_login")
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+        $message = $request->get('message');
 
         $form = $this->createForm(LoginForm::class, [
             '_username' => $lastUsername,
@@ -31,11 +35,11 @@ class SecurityController extends Controller
         return $this->render('security/login.html.twig', array(
             'form' => $form->createView(),
             'error' => $error,
+            'message' => $message
         ));
     }
 
     /**
-<<<<<<< HEAD
      * @Route("/password-recovery", name="password_recovery")
      */
     public function passwordRecoveryAction(Request $request)
@@ -43,22 +47,24 @@ class SecurityController extends Controller
         $em = $this->getDoctrine()->getManager();
         $recoveryService = $this->get('password_recovery');
         $recovery = new PasswordRecovery();
-        $form = $this->createForm(PasswordRecoveryType::class, $recovery);
+        $form = $recoveryService->getRecoveryForm($this->createFormBuilder());
         $form->handleRequest($request);
         $error = null;
-        if ($form->isSubmitted() && $form->isValid()) {
-            $email = $form->get('email');
-            $user = $em->getRepository('AppBundle:User')->findBy(['email' => $email]);
-            $error = $recoveryService->getUserError($user);
+        if ($form->isSubmitted()) {
+            $email = $form->getData()['email'];
+            $user = $em->getRepository('AppBundle:User')->findOneBy(['email' => $email]);
             if ($user instanceof User) {
                 $recoveryService->createNewRecovery($recovery, $user);
 
-                return $this->redirectToRoute('password_recovery_confirm');
+                return $this->redirectToRoute('login', ['message' => 'Check your email for new messages']);
+            }
+            else {
+                $error = 'There is no user with such email';
             }
         }
 
         return $this->render('password-recovery.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'btn_send_text' => 'Next',
             'error' => $error,
         ]);
@@ -71,32 +77,32 @@ class SecurityController extends Controller
     {
         $recoveryService = $this->get('password_recovery');
         $recoveryEntity = $recoveryService->getRecoveryEntity($token);
+        $error = null;
         if ($recoveryEntity instanceof PasswordRecovery) {
-            $form = $this->createForm(PasswordRecoveryType::class, $recoveryEntity, [
-                    'action' => $this->generateUrl('password_recovery_confirm'),
-                    'class' => 'col s12',
-                ]);
+            $url = $this->generateUrl('password_recovery_confirm', ['token' => $token]);
+            $form = $recoveryService->getRecoveryConfirmationForm($this->createFormBuilder(), $url);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $user = $recoveryEntity->getUser();
-                $recoveryService->recover($user, $request->get('password'), $recoveryEntity);
+                $recoveryService->recover($recoveryEntity, $form->getData()['password']);
 
-                return $this->redirect($this->generateUrl('login'));
+                return $this->redirect($this->generateUrl('login', ['message', 'Password recovered successfully']));
             }
 
             return $this->render('password-recovery-confirm.html.twig', [
-                'form' => $form,
-                //'error' => $error,
+                'form' => $form->createView(),
+                'btn_confirm_text' => 'Confirm',
+                'error' => $error,
             ]);
         } else {
             return $this->redirect($this->generateUrl('password_recovery', ['error' => 'Invalid recovery address, try again']));
         }
-=======
+    }
+
+    /**
      * @Route("/logout", name="security_logout")
      */
     public function logoutAction()
     {
         throw new \Exception('this should not be reached');
->>>>>>> ea22e7c668f4d1d8f998460c961b1444edc08882
     }
 }

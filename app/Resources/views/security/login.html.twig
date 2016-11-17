@@ -12,6 +12,12 @@
                     </div>
                 {% endif %}
 
+                {% if message %}
+                    <div class="card-panel green lighten-2">
+                        {{ message }}
+                    </div>
+                {% endif %}
+
                 {{ form_start(form) }}
                     {{ form_row(form._username) }}
                     {{ form_row(form._password) }}
@@ -19,6 +25,7 @@
                     <button type="submit" class="btn">Login<i class="material-icons right">lock</i></button>
                     &nbsp;
                     <a href="{{ path('user_register') }}" class="btn">Register</a>
+                    <a style="float: right" href="{{ path('password_recovery') }}">Forgot password?</a>
                 {{ form_end(form) }}
             </div>
         </div>
