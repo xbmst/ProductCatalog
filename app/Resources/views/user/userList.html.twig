@@ -21,9 +21,9 @@
                                 <td>{{ user.id }}</td>
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.email }}</td>
-                                <td>{{ user.roles|json_encode }}</td>
+                                <td>{{ user.roles|json_encode}}</td>
                                 <td>{{ user.isActive }}</td>
-                                <td><a href=""><i class="material-icons grey-text">edit</i></a></td>
+                                <td><a href="{{ path('admin_user_edit', { 'id': user.id }) }}"><i class="material-icons grey-text">edit</i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

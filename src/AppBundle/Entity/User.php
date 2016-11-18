@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @ORM\Entity
@@ -15,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
@@ -80,7 +83,6 @@ class User implements UserInterface
         if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
         }
-
         return $roles;
     }
 
@@ -90,7 +92,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set username.
+     * Set username
      *
      * @param string $username
      *
@@ -108,13 +110,7 @@ class User implements UserInterface
         $this->password = $password;
     }
 
-    /**
-     * Set email.
-     *
-     * @param string $email
-     *
-     * @return User
-     */
+
     public function setEmail($email)
     {
         $this->email = $email;
@@ -130,13 +126,6 @@ class User implements UserInterface
         $this->roles = $roles;
     }
 
-    /**
-     * Set isActive.
-     *
-     * @param bool $isActive
-     *
-     * @return User
-     */
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
@@ -144,11 +133,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * Get isActive.
-     *
-     * @return bool
-     */
     public function getIsActive()
     {
         return $this->isActive;
