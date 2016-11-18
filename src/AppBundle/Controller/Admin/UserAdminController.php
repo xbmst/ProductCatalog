@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\Admin;
 
-
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,7 +11,7 @@ use Symfony\Component\BrowserKit\Request;
 /**
  * @Route("/admin")
  */
-class UserAdminController extends Controller 
+class UserAdminController extends Controller
 {
     /**
      * @Route("/user", name="admin_user_list")
@@ -46,7 +45,8 @@ class UserAdminController extends Controller
 
             return $this->redirectToRoute('app_user_list');
         }
-        return $this->render('user/userEdit.html.twig',[
+
+        return $this->render('user/userEdit.html.twig', [
             'userForm' => $form->createView(),
             ]
 

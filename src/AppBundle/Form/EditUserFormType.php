@@ -4,9 +4,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bridge\Doctrine\Security\User\EntityUserProvider;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,7 +19,7 @@ class EditUserFormType extends AbstractType
             ->add('email', EmailType::class)
             ->add('username', TextType::class)
             ->add('password', PasswordType::class)
-            ->add('roles', EntityType::class,[
+            ->add('roles', EntityType::class, [
                 'class' => User::class,
 
             ]);

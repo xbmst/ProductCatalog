@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @ORM\Entity
@@ -43,7 +42,6 @@ class User implements UserInterface
      * @Assert\NotBlank(groups={"Registration"})
      */
     private $plainPassword;
-
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
@@ -82,6 +80,7 @@ class User implements UserInterface
         if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
         }
+
         return $roles;
     }
 
@@ -90,8 +89,8 @@ class User implements UserInterface
         $this->plainPassword = null;
     }
 
-        /**
-     * Set username
+    /**
+     * Set username.
      *
      * @param string $username
      *
@@ -110,7 +109,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set email
+     * Set email.
      *
      * @param string $email
      *
@@ -132,9 +131,9 @@ class User implements UserInterface
     }
 
     /**
-     * Set isActive
+     * Set isActive.
      *
-     * @param boolean $isActive
+     * @param bool $isActive
      *
      * @return User
      */
@@ -146,9 +145,9 @@ class User implements UserInterface
     }
 
     /**
-     * Get isActive
+     * Get isActive.
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsActive()
     {
@@ -170,5 +169,4 @@ class User implements UserInterface
     {
         return $this->id;
     }
-
 }

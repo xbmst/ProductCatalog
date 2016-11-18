@@ -2,22 +2,15 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\User;
-use AppBundle\Form\PasswordRecoveryType;
 use AppBundle\Form\LoginForm;
-use AppBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\PasswordRecovery;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\HttpFoundation\Request;
 
 class SecurityController extends Controller
 {
-
     /**
      * @Route("/login", name="security_login")
      */
@@ -35,7 +28,7 @@ class SecurityController extends Controller
         return $this->render('security/login.html.twig', array(
             'form' => $form->createView(),
             'error' => $error,
-            'message' => $message
+            'message' => $message,
         ));
     }
 
@@ -57,8 +50,7 @@ class SecurityController extends Controller
                 $recoveryService->createNewRecovery($recovery, $user);
 
                 return $this->redirectToRoute('login', ['message' => 'Check your email for new messages']);
-            }
-            else {
+            } else {
                 $error = 'There is no user with such email';
             }
         }

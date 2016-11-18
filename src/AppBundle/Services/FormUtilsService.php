@@ -9,14 +9,14 @@ use Symfony\Component\Form\FormBuilder;
 
 class FormUtilsService
 {
-
     public function getRecoveryForm(FormBuilder $builder)
     {
         $form = $builder
             ->add('email', EmailType::class, [
-                'invalid_message' => 'Invalid email'
+                'invalid_message' => 'Invalid email',
             ])
             ->getForm();
+
         return $form;
     }
 
@@ -31,11 +31,11 @@ class FormUtilsService
                 'second_options' => [
                     'label' => 'Repeat new password',
                 ],
-                'invalid_message' => 'Passwords do not match'
+                'invalid_message' => 'Passwords do not match',
             ])
             ->setAction($url)
             ->getForm();
+
         return $form;
     }
-
 }

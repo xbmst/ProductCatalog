@@ -4,12 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserRegistrationForm;
-use AppBundle\Form\UserType;
 use AppBundle\Form\EditUserFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends Controller
 {
@@ -18,7 +16,6 @@ class UserController extends Controller
      */
     public function registerAction(Request $request)
     {
-
         $form = $this->createForm(UserRegistrationForm::class);
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -41,7 +38,7 @@ class UserController extends Controller
         }
 
         return $this->render('user/register.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -70,7 +67,7 @@ class UserController extends Controller
             ->findAll();
 
         return $this->render('user/userList.html.twig', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 }
