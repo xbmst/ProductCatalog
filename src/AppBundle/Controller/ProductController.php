@@ -12,16 +12,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class ProductController extends Controller
 {
     /**
-     * @Route("/categories/{id}/create", name="create_product")
+     * @Route("/products/{category}/{page}", name="user_products_list")
      */
-    public function createAction(ProductCategory $category, Request $request)
+    public function showProducts($category, $page, Request $request)
     {
-        $product = new Product();
-        $form = $this->createForm(ProductType::class, $product);
-        $form->handleRequest($request);
+        $products = $message = null;
+        $productsService = $this->get('products_service');
+        if ($productsService->categoryExists($category)) {
+            $products = $this->getDoctrine()->getRepository("AppBundle:Product")->findAll();
+        }
+        else {
+            $message = 'Category';
+        }
 
-        return $this->render('product.html.twig', [
-            'form' => $form->createView(),
+        return $this->render(':admin/product:list.html.twig', [
+            'products' => $products,
+            'message' => $message
         ]);
     }
 }

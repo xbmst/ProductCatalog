@@ -8,6 +8,9 @@ services:
         class: AppBundle\Services\PasswordRecoveryService
         autowire: true
 #        arguments: ["@service_container", "@doctrine.orm.entity_manager"]
+    products_service:
+        class: AppBundle\Services\ProductsService
+        autowire: true
     form_utils:
         class: AppBundle\Services\FormUtilsService
 #        arguments: ["@security.password_encoder"]

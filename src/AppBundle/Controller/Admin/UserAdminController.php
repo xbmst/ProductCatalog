@@ -48,16 +48,9 @@ class UserAdminController extends Controller
 
             return $this->redirectToRoute('admin_user_list');
         }
-<<<<<<< HEAD
 
         return $this->render('user/userEdit.html.twig', [
             'userForm' => $form->createView(),
-            ]
-=======
->>>>>>> 21bd42fe7637b25f36a5f1592b960580cd194294
-
-        return $this->render('user/userEdit.html.twig', [
-            'userForm' => $form->createView()
         ]);
     }
 }

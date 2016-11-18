@@ -23,7 +23,9 @@
                                 <th>Description</th>
                                 <th>Created at</th>
                                 <th>Updated at</th>
-                                <th> </th>
+                                {% if is_granted("ROLE_MANAGE_PRODUCT") %}
+                                    <th> </th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
@@ -36,9 +38,11 @@
                                 <td>{{ product.description }}</td>
                                 <td>{{ product.createdAt|date("d/m/Y") }}</td>
                                 <td>{{ product.updatedAt|date("d/m/Y") }}</td>
+                                {% if is_granted("ROLE_MANAGE_PRODUCT") %}
                                 <td>
                                     <a href="{{ path('admin_product_edit', {'id': product.id}) }}"><i class="material-icons grey-text">edit</i></a>
                                 </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>
