@@ -16,6 +16,8 @@ use Symfony\Component\Security\Core\Role\Role;
 class User implements UserInterface
 {
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
@@ -43,7 +45,6 @@ class User implements UserInterface
      * @Assert\NotBlank(groups={"Registration"})
      */
     private $plainPassword;
-
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
@@ -90,7 +91,7 @@ class User implements UserInterface
         $this->plainPassword = null;
     }
 
-        /**
+    /**
      * Set username
      *
      * @param string $username
@@ -109,13 +110,7 @@ class User implements UserInterface
         $this->password = $password;
     }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
+
     public function setEmail($email)
     {
         $this->email = $email;
@@ -131,13 +126,6 @@ class User implements UserInterface
         $this->roles = $roles;
     }
 
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return User
-     */
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
@@ -145,11 +133,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * Get isActive
-     *
-     * @return boolean
-     */
     public function getIsActive()
     {
         return $this->isActive;
@@ -170,5 +153,4 @@ class User implements UserInterface
     {
         return $this->id;
     }
-
 }

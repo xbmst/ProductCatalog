@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Admin;
 use AppBundle\Entity\Product;
 use AppBundle\Form\ProductType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,6 +29,7 @@ class ProductAdminController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_MANAGE_PRODUCT')")
      * @Route("/product/new", name="admin_product_new")
      */
     public function newAction(Request $request)
@@ -53,6 +55,7 @@ class ProductAdminController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_MANAGE_PRODUCT')")
      * @Route("/product/{id}/edit", name="admin_product_edit")
      */
     public function editAction(Request $request, Product $product)

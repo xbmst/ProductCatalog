@@ -6,9 +6,14 @@
             <div class="col s6">
                 <h2>Edit user</h2>
 
-                {{ form_start() }}
-                    {{ form_row(form.) }}
-                {{ form_end(form) }}
+                {{ form_start(userForm) }}
+                    {{ form_row(userForm.email) }}
+                    {{ form_row(userForm.username) }}
+                    {{ form_row(userForm.roles) }}
+                    {{ form_row(userForm.isActive) }}
+
+                <button type="submit" class="btn" formnovalidate>Save</button>
+                {{ form_end(userForm) }}
             </div>
         </div>
     </div>
