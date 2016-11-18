@@ -16,7 +16,6 @@ class ProductController extends Controller
      */
     public function createAction(ProductCategory $category, Request $request)
     {
-
     }
 
     /**

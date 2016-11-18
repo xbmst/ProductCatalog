@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @ORM\Entity
@@ -83,6 +82,7 @@ class User implements UserInterface
         if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
         }
+
         return $roles;
     }
 
@@ -92,7 +92,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -109,7 +109,6 @@ class User implements UserInterface
     {
         $this->password = $password;
     }
-
 
     public function setEmail($email)
     {

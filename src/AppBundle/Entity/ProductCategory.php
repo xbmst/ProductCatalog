@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductCategory
+ * ProductCategory.
  *
  * @ORM\Table(name="product_categories")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductCategoryRepository")
@@ -35,9 +35,8 @@ class ProductCategory
      */
     private $active;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -47,7 +46,7 @@ class ProductCategory
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -61,7 +60,7 @@ class ProductCategory
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -71,9 +70,9 @@ class ProductCategory
     }
 
     /**
-     * Set active
+     * Set active.
      *
-     * @param boolean $active
+     * @param bool $active
      *
      * @return ProductCategory
      */
@@ -85,7 +84,7 @@ class ProductCategory
     }
 
     /**
-     * Get active
+     * Get active.
      *
      * @return bool
      */
@@ -99,4 +98,3 @@ class ProductCategory
         return $this->getName();
     }
 }
-

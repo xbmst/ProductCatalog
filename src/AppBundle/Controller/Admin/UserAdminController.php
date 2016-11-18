@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @Security("is_granted('ROLE_MANAGE_USER')")
  * @Route("/admin/user")
  */
-class UserAdminController extends Controller 
+class UserAdminController extends Controller
 {
     /**
      * @Route("/", name="admin_user_list")
@@ -25,7 +25,7 @@ class UserAdminController extends Controller
             ->findAll();
 
         return $this->render('user/userList.html.twig', array(
-            'users' => $users
+            'users' => $users,
         ));
     }
 
@@ -50,7 +50,7 @@ class UserAdminController extends Controller
         }
 
         return $this->render('user/userEdit.html.twig', [
-            'userForm' => $form->createView()
+            'userForm' => $form->createView(),
         ]);
     }
 }
