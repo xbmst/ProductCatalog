@@ -42,7 +42,7 @@ class SecurityController extends Controller
         $recovery = new PasswordRecovery();
         $form = $recoveryService->getRecoveryForm($this->createFormBuilder());
         $form->handleRequest($request);
-        $error = null;
+        $error = $request->get('error');
         if ($form->isSubmitted()) {
             $email = $form->getData()['email'];
             $user = $em->getRepository('AppBundle:User')->findOneBy(['email' => $email]);
