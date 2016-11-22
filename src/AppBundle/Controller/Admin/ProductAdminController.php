@@ -39,6 +39,8 @@ class ProductAdminController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $product = $form->getData();
+            $product->setCreatedAt(date("Y-m-d"));
+            $product->setUpdatedAt(date("Y-m-d"));
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
