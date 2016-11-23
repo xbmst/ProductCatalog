@@ -25,6 +25,14 @@ class ProductController extends Controller
     }
 
     /**
+     * @Route("/get-template")
+     */
+    public function getTemplate(Request $request)
+    {
+        return $this->render('grid-template.html');
+    }
+
+    /**
      * @Route("/{category}/{page}")
      */
     public function showProducts($category, $page)

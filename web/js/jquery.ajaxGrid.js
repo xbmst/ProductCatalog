@@ -43,10 +43,11 @@
             },
 
             initGrid: function() {
-                scope.context.load("templates/grid-template.html");
+                scope.context.load("/products/get-template");
                 this.get(scope.options.dataUrl, {}, function(response) {
                     scope.headers = response.headers;
                     scope.model = response.data;
+                    console.log(scope.model)
                     scope.gridHeader = scope.context.children(".grid-header");
                     scope.grid = scope.context.children(".grid");
                     scope.sortableColumns = scope.context.find("#sort-by-value");

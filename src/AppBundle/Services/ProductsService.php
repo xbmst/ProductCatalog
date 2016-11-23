@@ -83,17 +83,17 @@ class ProductsService
             );
         }
         $query = $qb->getQuery();
-        return $query->getResult();
+        return $query->getArrayResult();
     }
 
     public function handleParams(Request $request)
     {
-        $page = $request->request->get('page');
-        $category = $request->request->get('category');
-        $sortField = $request->request->get('sort_field');
-        $sortBy = $request->request->get('order_by');
-        $filterField = $request->request->get('filter_field');
-        $filterPattern = $request->request->get('filter_pattern');
+        $page = $request->query->get('page');
+        $category = $request->query->get('category');
+        $sortField = $request->query->get('sort_field');
+        $sortBy = $request->query->get('order_by');
+        $filterField = $request->query->get('filter_field');
+        $filterPattern = $request->query->get('filter_pattern');
 
         $params = [
             'products_per_page' => $request->request->get('products_per_page'),
@@ -119,7 +119,7 @@ class ProductsService
             $params['errors'][] = 'Category '.$category.' does not exist';
         }
 
-        if (intval($params['page']) == 0) {
+        if ($params['page'] === 0) {
             $params['page'] = 1;
             $params['errors'][] = 'Page format is incorrect';
         }
@@ -137,7 +137,8 @@ class ProductsService
     }
 
     public function isValidPage($page) {
-        return $this->isValidParam($page) && is_int(intval($page));
+
+        return filter_var($page, FILTER_VALIDATE_INT);
     }
 
     public function toBeSorted($field, $type)
