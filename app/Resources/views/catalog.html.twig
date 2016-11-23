@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/ajax-grid.css') }}">
+{% endblock %}
+
 {% block body %}
-    <div>
-        <div>
-            Hello, <b>{{ user.username }}</b>!
-        </div>
-        <div>
+    <div id="products" class="row"></div>
+{% endblock %}
 
-        </div>
-    </div>
-
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery.ajaxGrid.js') }}"></script>
+    <script src="{{ asset('js/catalog.js') }}"></script>
 {% endblock %}

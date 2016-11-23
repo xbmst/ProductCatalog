@@ -17,6 +17,7 @@ class EditUserType extends AbstractType
             ->add('email', EmailType::class)
             ->add('username', TextType::class)
             ->add('isActive', ChoiceType::class, [
+                'expanded' => true,
                 'choices' => [
                     'Yes' => true,
                     'No' => false,

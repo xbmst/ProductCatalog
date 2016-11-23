@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.transition {
+    transition: all .2s ease;
+}
+
+.rounded {
+    border-radius: 3px;
+}
+
+body {
+    background: rgb(215, 215, 215);
+    font-family: "Roboto", sans-serif;
+}
+
+.grid-wrapper {
+    position:absolute;
+    width:80%;
+    top:3%;
+    left:50%;
+    transform:translate(-50%);
+}
+
+.grid-header {
+    display: flex;
+    margin-bottom:15px;
+}
+
+.grid-header .title {
+    display: flex;
+    flex-grow: 1;
+    align-content: center;
+}
+
+.grid-header .title h2 {
+    margin:0;
+}
+
+.grid-header .settings {
+    display: flex;
+}
+
+.grid-header .settings .settings-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.settings input[type="text"] {
+    margin:0;
+    height:40px;
+}
+
+.settings select {
+    margin-left:0;
+}
+
+.settings .settings-element {
+    margin-left: 15px;
+}
+
+.grid .product {
+    margin-top:20px;
+    cursor:pointer;
+    background:#fff;
+}
+
+.grid .product:hover {
+    box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12),0 3px 5px -1px rgba(0,0,0,0.3);
+}
+
+.grid .product .prod-info {
+    display: flex;
+    justify-content: center;
+}
+
+.product .image-wrapper {
+    margin-top:10px;
+}
+
+.grid .product .name-id {
+    margin-top:10px;
+    min-height:45px;
+}
+
+.grid .product .description {
+    margin-top:10px;
+    text-align: justify;
+    justify-content: center;
+    min-height:110px;
+}
+
+.grid .product .year {
+    float:right;
+    margin-bottom:10px;
+}
+
+.pagination {
+    display: flex;
+    margin:20px 0;
+    align-content: center;
+    justify-content: center;
+}
+
+.pagination .active {
+    background: #2bbbad;
+    color:#fff;
+}
+
+@media screen and (max-width:660px) {
+    .product {
+        width:100% !important;
+    }
+}
+
+@media screen and (max-width:2000px) {
+    .product {
+        width:calc(100% / 4 - 15px) !important;
+        margin-right:20px;
+    }
+
+    .product:nth-child(4n) {
+        margin-right: 0;
+    }
+}

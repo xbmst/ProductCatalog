@@ -8,7 +8,11 @@
                 <div class="row valign-wrapper">
                     <div class="col s10 valign"><h2>Products</h2></div>
                     <div class="col s2 valign">
-                        <a href="{{ path('admin_product_new') }}" class="btn">Add<i class="material-icons right">add_circle_outline</i></a>
+                        {% if is_granted("ROLE_MANAGE_PRODUCT") %}
+                            <a href="{{ path('admin_product_new') }}" class="btn">
+                                Add<i class="material-icons right">add_circle_outline</i>
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col s12">
@@ -29,22 +33,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for product in products %}
-                            <tr>
-                                <td>{{ product.id }}</td>
-                                <td>{{ product.name }}</td>
-                                <td>{{ product.category }}</td>
-                                <td>{{ product.sku }}</td>
-                                <td>{{ product.description }}</td>
-                                <td>{{ product.createdAt|date("d/m/Y") }}</td>
-                                <td>{{ product.updatedAt|date("d/m/Y") }}</td>
-                                {% if is_granted("ROLE_MANAGE_PRODUCT") %}
-                                <td>
-                                    <a href="{{ path('admin_product_edit', {'id': product.id}) }}"><i class="material-icons grey-text">edit</i></a>
-                                </td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
+                        {% if products %}
+                            {% for product in products %}
+                                <tr>
+                                    <td>{{ product.id }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.category }}</td>
+                                    <td>{{ product.sku }}</td>
+                                    <td>{{ product.description }}</td>
+                                    <td>{{ product.createdAt|date("d/m/Y") }}</td>
+                                    <td>{{ product.updatedAt|date("d/m/Y") }}</td>
+                                    {% if is_granted("ROLE_MANAGE_PRODUCT") %}
+                                    <td>
+                                        <a href="{{ path('admin_product_edit', {'id': product.id}) }}"><i class="material-icons grey-text">edit</i></a>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -52,3 +58,10 @@
         </div>
     </div>
 {% endblock body%}
+
+{% if errors %}
+    {% block javascripts %}
+        {{ parent() }}
+        {% include 'form-error.html.twig' with {'error': errors} %}
+    {% endblock %}
+{% endif %}

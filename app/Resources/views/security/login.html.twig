@@ -6,10 +6,6 @@
             <div class="col s12">
                 <h2>Login</h2>
 
-                {% if error %}
-                    {% include 'form-error.html.twig' with {'error': error.messageKey|trans(error.messageData, 'security') , 'security': true} %}
-                {% endif %}
-
                 {% if message %}
                     <div class="card-panel green lighten-2">
                         {{ message }}
@@ -29,3 +25,10 @@
         </div>
     </div>
 {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        {% if error %}
+            {% include 'form-error.html.twig' with {'error': error.messageKey|trans(error.messageData, 'security')} %}
+        {% endif %}
+    {% endblock %}

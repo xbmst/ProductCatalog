@@ -1,0 +1,42 @@
+ <div class="grid-header row">
+        <div class="title">
+            <h2>Products</h2>
+        </div>
+        <div class="settings">
+            <div class="sort-by settings-element">
+                <label for="sort-by-value">Sort by</label>
+                <select name="sort_by_value" class="browser-default" id="sort-by-value">
+                </select>
+            </div>
+            <div class="sort-type settings-element">
+                <label for="sort-order-value">Sort type</label>
+                <select name="sort_type_value" class="browser-default" id="sort-order-value">
+                    <option value="asc">ascending</option>
+                    <option value="desc">descending</option>
+                </select>
+            </div>
+            <div class="filter-field settings-element">
+                <label for="filter-field-value">Filter field</label>
+                <select name="filter_field_value" class="browser-default" id="filter-field-value">
+                </select>
+            </div>
+            <div class="filter-pattern settings-element">
+                <label for="filter-pattern">Filter pattern</label>
+                <input type="text" class="input-field" id="filter-pattern">
+            </div>
+            <div class="settings-element">
+                <button class="find-filtered transition btn waves-effect settings-element" id="submit-button">FIND</button>
+            </div>
+        </div>
+    </div>
+    <div class="grid row">
+    </div>
+    <ul class="pagination">
+        <li class="disabled control-left"><a href=""><i class="material-icons">chevron_left</i></a></li>
+        <li class="active" data-page="1"><a href="">1</a></li>
+        <li class="waves-effect" data-page="2"><a href="#!">2</a></li>
+        <li class="waves-effect" data-page="3"><a href="#!">3</a></li>
+        <li class="waves-effect" data-page="4"><a href="#!">4</a></li>
+        <li class="waves-effect" data-page="5"><a href="#!">5</a></li>
+        <li class="waves-effect control-right"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+    </ul>
