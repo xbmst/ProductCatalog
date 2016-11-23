@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Secutiry;
+namespace AppBundle\Security;
 
 use AppBundle\Form\LoginForm;
 use Doctrine\ORM\EntityManager;
