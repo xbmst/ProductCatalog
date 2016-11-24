@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="col s12">
+        <nav>
+            <div class="nav-wrapper">
+                {% for breadcrumb_item in knp_menu_get_breadcrumbs_array(knp_menu_get_current_item('AppBundle:Builder:mainMenu')) %}
+                    {% if not loop.last %}
+                        <a href="{{ breadcrumb_item.uri }}" class="breadcrumb">{{ breadcrumb_item.label }}</a>
+                    {% else %}
+                        <span class="active breadcrumb">{{ breadcrumb_item.label }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </nav>
+    </div>
+</div>

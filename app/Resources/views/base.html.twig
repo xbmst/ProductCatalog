@@ -15,21 +15,22 @@
         <header class="header">
             <nav>
                 <div class="nav-wrapper">
-                    <ul class="left">
+                    <ul class="left hide-on-med-and-down">
                         {% if is_granted('ROLE_MOD, ROLE_ADMIN') %}
                             <li>
-                                {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+                                {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 1, 'currentAsLink': true}) }}
                             </li>
                         {% elseif is_granted('ROLE_USER') %}
                             <li>
-                                {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+                                {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 1, 'currentAsLink': true}) }}
                             </li>
                         {% endif %}
                     </ul>
+
                     <ul class="right hide-on-med-and-down">
 
                         {% if is_granted('ROLE_USER') %}
-                            <li><a href="{{ path('security_logout') }}" class="btn">Logout</a></li>
+                            <li><a href="{{ path('security_logout') }}" class="btn lighten-3 red">Logout</a></li>
                         {% else %}
                             <li><a href="{{ path('security_login') }}" class="btn">Login</a></li>
                             <li><a href="{{ path('user_register') }}" class="btn-flat">Register</a></li>
@@ -41,6 +42,8 @@
                 </div>
             </nav>
         </header>
+        <br />
+
         {% for msg in app.session.flashBag.get('success') %}
             <div class="container">
                 <div class="row">

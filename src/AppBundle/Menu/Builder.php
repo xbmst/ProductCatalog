@@ -13,25 +13,29 @@ class Builder implements ContainerAwareInterface
 
     public function mainMenu(FactoryInterface $factory, array $options)
     {
-        $menu = $factory->createItem('root');
+        $menu = $factory->createItem('Home');
 
-        $menu->addChild('Home', array('route' => 'homepage'));
+        $menu->addChild('Home', ['route' => 'homepage']);
 
         $em = $this->container->get('doctrine')->getManager();
-
-        $product = $em->getRepository('AppBundle:Product')->findAll();
+        $category = $em->getRepository('AppBundle:ProductCategory')->findAll();
 
         $menu->addChild('Products', [
             'route' => 'admin_product_list',
-            //'routeParameters' =>
-        ]);
+            ]);
+
         $menu['Products']->addChild('Add product', [
-                'route' => 'admin_product_new',
-            ]
-        );
+            'route' => 'admin_product_new',
+
+            ]);
 
         $menu->addChild('Users', [
            'route' => 'admin_user_list',
+        ]);
+
+        //dump(count($category));
+        $menu->addChild('Categories', [
+            'route' => 'admin_category_list'
         ]);
 
         return $menu;

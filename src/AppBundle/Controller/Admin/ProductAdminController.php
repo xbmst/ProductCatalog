@@ -81,4 +81,22 @@ class ProductAdminController extends Controller
             'productForm' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Security("is_granted('ROLE_MANAGE_PRODUCT')")
+     * @Route("/product/{id}/delete", name="admin_product_delete")
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $this->getDoctrine()->getRepository('AppBundle:Product')
+            ->find($id);
+
+        $em->remove($product);
+        $em->flush();
+
+        $this->addFlash('success', 'Product deleted.');
+
+        return $this->redirectToRoute('admin_product_list');
+    }
 }
