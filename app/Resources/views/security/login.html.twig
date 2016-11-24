@@ -17,7 +17,7 @@
                 {% endif %}
 
                 {{ form_start(form) }}
-                    {{ form_row(form._username) }}
+                    {{ form_row(form._username, { 'label': 'Email'}) }}
                     {{ form_row(form._password) }}
 
                     <button type="submit" class="btn">Login<i class="material-icons right">lock</i></button>
