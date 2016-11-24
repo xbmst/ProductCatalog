@@ -1,21 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% set myVal = 0 %}
-
-
-
-
-
 {% block body %}
     {% macro recursiveCategory(category) %}
         <li>
             <a href="">{{ category.name }}</a>
             {% if category.children|length %}
-                <ul>
+                <ol>
                     {% for child in category.children %}
                         {{ _self.recursiveCategory(child) }}
                     {% endfor %}
-                </ul>
+                </ol>
             {% endif %}
         </li>
     {% endmacro %}
@@ -24,7 +18,7 @@
         <div id="categories">
             <ul>
                 {% for category in categories %}
-                    - {{ _self.recursiveCategory(category) }}
+                    {{ _self.recursiveCategory(category) }}
                 {% endfor %}
             </ul>
         </div>
