@@ -25,6 +25,15 @@ class ProductController extends Controller
     }
 
     /**
+     * @Route("/get-pages-amount")
+     */
+    public function getPageAmount(Request $request)
+    {
+        $rowsPerPage = $request->query->get('rows_per_page');
+        return new JsonResponse($this->get('products_service')->getPageAmount($rowsPerPage));
+    }
+
+    /**
      * @Route("/get-template")
      */
     public function getTemplate(Request $request)
@@ -33,6 +42,8 @@ class ProductController extends Controller
     }
 
     /**
+     * @Route("/")
+     * @Route("/{category}")
      * @Route("/{category}/{page}")
      */
     public function showProducts($category, $page)

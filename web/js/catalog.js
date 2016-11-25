@@ -1,8 +1,11 @@
 $(document).ready(function () {
-    $("#products").ajaxGrid({
+    var products = $("#products");
+
+    products.ajaxGrid({
         dataUrl: "/products/get",
         sortableColumns: ["name"],
         filterableColumns: ["name", "description"],
-        rowsPerPage: 15
+        rowsPerPage: 10
     });
+
 });

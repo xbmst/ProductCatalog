@@ -12,7 +12,7 @@
 }
 
 body {
-    background: rgb(215, 215, 215);
+    background: rgb(235, 235, 235);
     font-family: "Roboto", sans-serif;
 }
 
@@ -112,17 +112,32 @@ body {
 
 @media screen and (max-width:660px) {
     .product {
-        width:100% !important;
+        width:100%;
     }
 }
 
-@media screen and (max-width:2000px) {
+@media screen and (max-width:1400px) {
     .product {
         width:calc(100% / 4 - 15px) !important;
-        margin-right:20px;
+        margin-right:15px;
     }
 
     .product:nth-child(4n) {
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width:2500px) {
+    .product {
+        width:calc(100% / 5 - 15px) !important;
+        margin-right:15px;
+    }
+
+    .product:nth-child(4n) {
+        margin-right: 15px;
+    }
+
+    .product:nth-child(5n) {
         margin-right: 0;
     }
 }

@@ -9,17 +9,16 @@
         allowedOrders: ["asc", "desc"],
         filterableColumns: null,
         filterPattern: null,
+        filterLastId: null,
         paginationWrapper: null,
         activePage: null,
         rowsWrapper: null,
         gridHeader: null,
         grid: null,
+        pagesAmount: 0,
         submitButton: null,
         context: null,
-        state: {
-            sort: {},
-            filter: {}
-        },
+        state: {},
         methods: {
             setContext: function(context) {
                 scope.context = context;
@@ -40,6 +39,14 @@
                 }
                 scope.sortableColumns.html(sortBy);
                 scope.filterableColumns.html(filterBy);
+                scope.methods.initSelects();
+            },
+
+            initSelects: function() {
+                scope.selects = scope.context.find(".settings-select");
+                scope.selects.each(function() {
+                    $(this).material_select();
+                });
             },
 
             initGrid: function() {
@@ -47,7 +54,6 @@
                 this.get(scope.options.dataUrl, {}, function(response) {
                     scope.headers = response.headers;
                     scope.model = response.data;
-                    console.log(scope.model)
                     scope.gridHeader = scope.context.children(".grid-header");
                     scope.grid = scope.context.children(".grid");
                     scope.sortableColumns = scope.context.find("#sort-by-value");
@@ -57,6 +63,17 @@
                     scope.submitButton = scope.context.find("#submit-button");
                     scope.paginationWrapper = scope.context.find(".pagination");
                     scope.activePage = scope.paginationWrapper.find("li.active");
+                    scope.methods.getPages(scope.options["rowsPerPage"], function() {
+                        $('.pagination').twbsPagination({
+                            startPage: 1,
+                            totalPages: scope.pagesAmount,
+                            visiblePages: 7,
+                            onPageClick: function (event, page) {
+                                scope.state['page'] = page;
+                                scope.methods.paginate(scope.state);
+                            }
+                        });
+                    });
                     scope.methods.initSettings();
                     scope.methods.handleParamsChange();
                     scope.methods.updateView();
@@ -70,16 +87,31 @@
             },
 
             handleFiltering: function() {
-                scope.submitButton.on("click", function() {
-                    if(!scope.filterPattern.val() || scope.filterableColumns.val() === "none") {
+                scope.filterableColumns.on("change", function() {
+                    if(scope.filterPattern.val()) onFilter();
+                });
+                scope.filterPattern.on("keypress", function(e) {
+                    if(e.keyCode == '13') onFilter();
+                });
+
+                function onFilter() {
+                    if(!scope.filterPattern.val()) {
                         console.log("incorrect filtering format");
                     }
-                    else {
-                        scope.state.filter["filter_pattern"] = scope.filterPattern.val();
-                        scope.state.filter["filter_column"] = scope.filterableColumns.val();
-                        scope.methods.filter(scope.state);
+                    if(scope.filterableColumns.val() === 'none') {
+                        delete scope.state["filter_pattern"];
+                        delete scope.state["filter_field"];
+                        delete scope.state["filter_last_id"];
+                        scope.filterPattern.val('');
+                        scope.filterableColumns.val('');
                     }
-                });
+                    else {
+                        scope.state["filter_pattern"] = scope.filterPattern.val();
+                        scope.state["filter_field"] = scope.filterableColumns.val();
+
+                    }
+                    scope.methods.filter(scope.state);
+                }
             },
 
             handleSorting: function() {
@@ -87,12 +119,13 @@
                 scope.sortableColumns.on("change", onSortParamsChange);
 
                 function onSortParamsChange() {
-                    if(scope.allowedOrders.indexOf(scope.sortOrder.val()) < 0 || scope.sortableColumns.val() === "none") {
+                    if(scope.allowedOrders.indexOf(scope.sortOrder.val()) < 0) {
                         console.log("incorrect sorting format");
                     }
                     else {
-                        scope.state.sort["sort_column"] = scope.sortableColumns.val();
-                        scope.state.filter["sort_order"] = scope.sortOrder.val();
+                        scope.state["sort_field"] = scope.sortableColumns.val();
+                        scope.state["order_by"] = scope.sortOrder.val();
+                        console.log(scope.state);
                         scope.methods.sort(scope.state);
                     }
                 }
@@ -107,11 +140,11 @@
             },
 
             sort: function(data) {
-                this.process(scope.options.dataUrl, data.sort);
+                this.process(scope.options.dataUrl, data);
             },
 
             filter: function(data) {
-                this.process(scope.options.dataUrl, data.filter);
+                this.process(scope.options.dataUrl, data);
             },
 
             paginate: function(data) {
@@ -121,6 +154,9 @@
             process: function(url, data, callback) {
                 this.get(url, data, function(response) {
                     scope.model = response.data;
+                    if(response.filter_last_id) {
+                        scope.state['filter_last_id'] = response.filter_last_id;
+                    }
                     scope.methods.updateView();
                 });
             },
@@ -129,21 +165,29 @@
                 $.ajax({
                     method: "GET",
                     url: url,
-                    data: data,
-                    success: callback || function(response) {
-                        scope.model = response.data;
-                        scope.methods.updateView();
-                    }
+                    data: $.extend(data, {
+                        'rows_per_page': scope.options['rowsPerPage']
+                    }),
+                    success: callback
+                });
+            },
+
+            getPages: function(rows, callback) {
+                $.get("/products/get-pages-amount", {
+                    'rows_per_page': rows
+                }, function(response) {
+                    scope.pagesAmount = parseInt(response, 10);
+                    callback();
                 });
             },
 
             updateView: function() {
                 var id, name, year, description, img,
                     resultDOM = "";
-                for (var i = 0; i < scope.options.rowsPerPage; i++) {
+                for (var i = 0; i < scope.model.length; i++) {
                     var row = scope.model[i];
                     resultDOM += "<div class='product col s12 m4 l3 z-depth-2 rounded'>";
-                    img = "<div class='prod-info image-wrapper'><img src='img/product.png'></div>";
+                    img = "<div class='prod-info image-wrapper'><img src='https://cdn1.iconfinder.com/data/icons/office-vol-5-2/128/office-13-128.png'></div>";
                     id = "<div class='prod-info name-id'><b>"+row["id"]+"</b> - "+row["name"]+"</div>";
                     description = "<div class='prod-info description'>"+row["description"]+"</div>";
                     year = "<div class='year'><b> Added "+row["year"]+"</b></div>";
@@ -162,7 +206,6 @@
             dataUrl: "/products/get",
             sortableColumns: ["name"],
             filterableColumns: ["name", "description"],
-            rowsPerPage: 10
         });
 
         scope.options = options;
