@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Secutiry;
+namespace AppBundle\Security;
 
 use AppBundle\Form\LoginForm;
 use Doctrine\ORM\EntityManager;
@@ -52,7 +52,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $username = $credentials['_username'];
 
         return $this->em->getRepository('AppBundle:User')
-            ->findOneBy(['email' => $username]);
+            ->findOneBy(['email' => $username, 'isActive' => true]);
     }
 
     public function checkCredentials($credentials, UserInterface $user)

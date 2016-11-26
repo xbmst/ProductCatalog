@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-
+use AppBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,6 +52,16 @@ class ProductController extends Controller
             'user' => $this->getUser(),
             'errors' => null,
         ]);
+        /*if ($productsService->categoryExists($category)) {
+            $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findAll();
+        } else {
+            $message = 'Category';
+        }
+
+        return $this->render('admin/product/list.html.twig', [
+            'products' => $products,
+            'message' => $message,
+        ]);*/
     }
 
 }

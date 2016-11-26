@@ -7,8 +7,8 @@
                 <h2>Register</h2>
 
                 {{ form_start(form) }}
-                    {{ form_row(form.username) }}
-                    {{ form_row(form.email) }}
+                    {{ form_row(form.username, { 'label': 'Full name'}) }}
+                    {{ form_row(form.email, { 'label': 'Email'}) }}
                     {{ form_row(form.plainPassword.first, { 'label': 'Password' }) }}
                     {{ form_row(form.plainPassword.second, { 'label': 'Repeat password' }) }}
                     <button type="submit" class="btn" formnovalidate>Register</button>

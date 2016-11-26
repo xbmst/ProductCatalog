@@ -14,15 +14,31 @@
     <body>
         <header class="header">
             <nav>
+                <div class="nav-wrapper">
+                    <ul class="left">
+                        {% if is_granted('ROLE_MOD, ROLE_ADMIN') %}
+                            <li>
+                                {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+                            </li>
+                        {% elseif is_granted('ROLE_USER') %}
+                            <li>
+                                {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <ul class="right hide-on-med-and-down">
 
-                <ul>
-                    {% if is_granted('ROLE_USER') %}
-                        <li><a href="{{ path('security_logout') }}" class="btn">Logout</a></li>
-                    {% else %}
-                        <li><a href="{{ path('security_login') }}" class="btn">Login</a></li>
-                        <li><a href="{{ path('user_register') }}" class="btn-flat">Register</a></li>
-                    {% endif %}
-                </ul>
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a href="{{ path('security_logout') }}" class="btn">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ path('security_login') }}" class="btn">Login</a></li>
+                            <li><a href="{{ path('user_register') }}" class="btn-flat">Register</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                            <li><a href="{{ path('homepage', {'_switch_user': '_exit'}) }}">Exit impersonation</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </nav>
         </header>
         {% for msg in app.session.flashBag.get('success') %}
@@ -46,6 +62,11 @@
                     crossorigin="anonymous">
             </script>
             <script src="{{ asset('vendor/materialize/js/materialize.min.js') }}"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('.dropdown-button').dropdown();
+                });
+            </script>
         {% endblock %}
     </body>
 </html>
