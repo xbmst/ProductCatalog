@@ -97,24 +97,17 @@ class ProductsService
         else {
             $qb->orderBy('p.id', 'ASC');
         }
+        /*if(isset($params['category'])) {
+            $qb->andWhere();
+        }*/
         if (isset($params['filter_field'])) {
             $qb->andWhere(
                 $qb->expr()->like('p.'.$params['filter_field'], ':filter')
             );
             $queryParameters['filter'] = '%'.$params['filter_pattern'].'%';
-            //if(!$params['filter_last_id']) {
-                $last = $this->em->createQuery(
-                    'SELECT p.id FROM AppBundle:Product p WHERE p.id > :startID AND p.'.$params['filter_field'].' LIKE :pattern'
-                )
-                    ->setMaxResults($params['rows_per_page'])
-                    ->setParameters([
-                        'startID' => $startID,
-                        'pattern' => $queryParameters['filter'],
-                    ])
-                ->getArrayResult();
-                $last = array_pop($last)['id'];
-                $params['filter_last_id'] = intval($last);
-            //}
+            $params['filter_last_id'] = $this->getFilterLastID(
+                $startID, $params['filter_field'], $queryParameters['filter'], $params['rows_per_page']
+            );
         }
         $qb->setParameters($queryParameters);
         $query = $qb->getQuery();
@@ -130,7 +123,21 @@ class ProductsService
         return $result;
     }
 
-    public function getFilterLastID($field, $pattern, $max)
+    public function getFilterLastID($start, $field, $pattern, $max)
+    {
+        $last = $this->em->createQuery(
+            'SELECT p.id FROM AppBundle:Product p WHERE p.id > :startID AND p.'.$field.' LIKE :pattern'
+        )
+            ->setMaxResults($max)
+            ->setParameters([
+                'startID' => $start,
+                'pattern' => $pattern,
+            ])
+            ->getArrayResult();
+        return intval(array_pop($last)['id']);
+    }
+
+    public function getSortingLastID()
     {
 
     }

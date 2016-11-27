@@ -42,15 +42,17 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/")
+     * @Route("/", name="products_all")
      * @Route("/{category}")
      * @Route("/{category}/{page}")
      */
     public function showProducts($category, $page)
     {
+        $categories = $this->get('category_service')->getFirstLevel();
         return $this->render('catalog.html.twig', [
             'user' => $this->getUser(),
             'errors' => null,
+            'categories' => $categories,
         ]);
         /*if ($productsService->categoryExists($category)) {
             $products = $this->getDoctrine()->getRepository('AppBundle:Product')->findAll();

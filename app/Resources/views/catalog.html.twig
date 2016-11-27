@@ -3,16 +3,56 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/ajax-grid.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 {% endblock %}
 
 {% block body %}
-        <div class="row">
-            <div id="products" class="col s10 push-s2"></div>
-        </div>
+        <main id="grid-container" class="row">
+
+            <!--<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>-->
+            {% include 'preloader.html.twig' %}
+            <div id="products" class="col s10">
+
+            </div>
+
+            {% macro recursiveCategory(category) %}
+                {% if category.children|length %}
+                    <li class="category parent-category" data-category="{{ category.id }}">
+                        <div class="transition-long tree-arrow"> &blacktriangleright; </div>
+                        <span>{{ category.name }}</span>
+                            {% for child in category.children %}
+                                <ul class="transition-long inner-categories closed">
+                                    {{ _self.recursiveCategory(child) }}
+                                </ul>
+                            {% endfor %}
+                    </li>
+                {% else %}
+                    <li class="category" data-category="{{ category.id }}">
+                        <span>{{ category.name }}</span>
+                    </li>
+                {% endif %}
+            {% endmacro %}
+
+            {% if categories %}
+                <div id="categories" class="col s2">
+                    <h3>Categories</h3>
+                    <ul class=" col s12 base-list rounded z-depth-1">
+                        {% for category in categories %}
+                            {{ _self.recursiveCategory(category) }}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </main>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn-floating waves-effect btn-large red" id="create-product" href="{{ url('admin_product_new') }}" target="_blank"><i class="material-icons">add</i></a>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script src="{{ asset('js/jquery.twbsPagination.js') }}"></script>
     <script src="{{ asset('js/jquery.ajaxGrid.js') }}"></script>
     <script src="{{ asset('js/catalog.js') }}"></script>

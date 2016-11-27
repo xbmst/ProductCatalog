@@ -6,41 +6,45 @@
         {% block stylesheets %}
             <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-            <link type="text/css" rel="stylesheet" href="{{ asset('vendor/materialize/css/materialize.min.css') }}"  media="screen,projection"/>
+            <link rel="stylesheet" type="text/css" href="{{ asset('vendor/materialize/css/materialize.min.css') }}"  media="screen,projection"/>
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         <header class="header">
-            <nav>
+            <nav class="blue darken-3">
                 <div class="nav-wrapper">
-                    <ul class="left">
-                        {% if is_granted('ROLE_MOD, ROLE_ADMIN') %}
-                            <li>
-                                {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
-                            </li>
-                        {% elseif is_granted('ROLE_USER') %}
-                            <li>
-                                {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
-                            </li>
-                        {% endif %}
-                    </ul>
-                    <ul class="right hide-on-med-and-down">
+                        <ul class="left hide-on-med-and-down">
+                            <li class="waves-effect"><a class="logo" href="#">Catalog</a></li>
+                            {% if is_granted('ROLE_MOD, ROLE_ADMIN') %}
+                                <li>
+                                    {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 1, 'currentAsLink': true}) }}
+                                </li>
+                            {% elseif is_granted('ROLE_USER') %}
+                                <li>
+                                    {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 1, 'currentAsLink': true}) }}
+                                </li>
+                            {% endif %}
+                        </ul>
 
-                        {% if is_granted('ROLE_USER') %}
-                            <li><a href="{{ path('security_logout') }}" class="btn">Logout</a></li>
-                        {% else %}
-                            <li><a href="{{ path('security_login') }}" class="btn">Login</a></li>
-                            <li><a href="{{ path('user_register') }}" class="btn-flat">Register</a></li>
-                        {% endif %}
-                        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                            <li><a href="{{ path('homepage', {'_switch_user': '_exit'}) }}">Exit impersonation</a></li>
-                        {% endif %}
-                    </ul>
+                        <ul class="waves-effect right hide-on-med-and-down">
+                            {% if is_granted('ROLE_USER') %}
+                                <li class="user-name">{{ app.user.userName }}</li>
+                                <li><a href="{{ path('security_logout') }}" class="btn waves-effect red">Logout</a></li>
+                            {% else %}
+                                <li><a href="{{ path('security_login') }}" class="btn waves-effect">Login</a></li>
+                                <li><a href="{{ path('user_register') }}" class="btn-flat waves-effect">Register</a></li>
+                            {% endif %}
+                            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                                <li><a href="{{ path('homepage', {'_switch_user': '_exit'}) }}">Exit impersonation</a></li>
+                            {% endif %}
+                        </ul>
                 </div>
             </nav>
         </header>
+
         {% for msg in app.session.flashBag.get('success') %}
             <div class="container">
                 <div class="row">

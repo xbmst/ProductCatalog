@@ -11,10 +11,13 @@
         filterPattern: null,
         filterLastId: null,
         paginationWrapper: null,
+        categoriesWrapper: null,
+        categories: null,
         activePage: null,
         rowsWrapper: null,
         gridHeader: null,
         grid: null,
+        preloader: null,
         pagesAmount: 0,
         submitButton: null,
         context: null,
@@ -49,6 +52,20 @@
                 });
             },
 
+            initCategories: function() {
+                scope.categories.each(function() {
+                    $(this).on("click", function(e) {
+                        var category = $(this);
+                        e.stopPropagation();
+                        $(".category.active").toggleClass("active");
+                        category.toggleClass("active");
+                        category.children(".inner-categories").each(function() {
+                            $(this).toggleClass("closed");
+                        });
+                    });
+                });
+            },
+
             initGrid: function() {
                 scope.context.load("/products/get-template");
                 this.get(scope.options.dataUrl, {}, function(response) {
@@ -56,10 +73,13 @@
                     scope.model = response.data;
                     scope.gridHeader = scope.context.children(".grid-header");
                     scope.grid = scope.context.children(".grid");
+                    scope.preloader = $(".preloader");
                     scope.sortableColumns = scope.context.find("#sort-by-value");
                     scope.sortOrder = scope.context.find("#sort-order-value");
                     scope.filterableColumns = scope.context.find("#filter-field-value");
                     scope.filterPattern = scope.context.find("#filter-pattern");
+                    scope.categoriesWrapper = $("#categories");
+                    scope.categories = scope.categoriesWrapper.find(".category");
                     scope.submitButton = scope.context.find("#submit-button");
                     scope.paginationWrapper = scope.context.find(".pagination");
                     scope.activePage = scope.paginationWrapper.find("li.active");
@@ -75,6 +95,7 @@
                         });
                     });
                     scope.methods.initSettings();
+                    scope.methods.initCategories();
                     scope.methods.handleParamsChange();
                     scope.methods.updateView();
                 });
@@ -152,6 +173,10 @@
             },
 
             process: function(url, data, callback) {
+                scope.paginationWrapper.fadeOut();
+                scope.grid.fadeOut(function() {
+                    scope.preloader.fadeIn();
+                });
                 this.get(url, data, function(response) {
                     scope.model = response.data;
                     if(response.filter_last_id) {
@@ -182,20 +207,23 @@
             },
 
             updateView: function() {
-                var id, name, year, description, img,
+                var id, name, imgUrl, description, img,
                     resultDOM = "";
                 for (var i = 0; i < scope.model.length; i++) {
                     var row = scope.model[i];
-                    resultDOM += "<div class='product col s12 m4 l3 z-depth-2 rounded'>";
-                    img = "<div class='prod-info image-wrapper'><img src='https://cdn1.iconfinder.com/data/icons/office-vol-5-2/128/office-13-128.png'></div>";
+                    imgUrl = 'https://unsplash.it/250?random='+row["id"];
+                    resultDOM += "<div class='product col s12 m4 l3 z-depth-1 waves-effect rounded'>";
+                    img = "<div class='image-wrapper'><img src='"+imgUrl+"'></div>";
                     id = "<div class='prod-info name-id'><b>"+row["id"]+"</b> - "+row["name"]+"</div>";
                     description = "<div class='prod-info description'>"+row["description"]+"</div>";
-                    year = "<div class='year'><b> Added "+row["year"]+"</b></div>";
+                    //year = "<div class='year'><b> Added "+row["year"]+"</b></div>";
 
-                    resultDOM += img+id+description+year;
+                    resultDOM += img+id+description/*+year*/;
                     resultDOM += "</div>";
                 }
-                scope.grid.html(resultDOM);
+                scope.grid.html(resultDOM).fadeIn();
+                scope.paginationWrapper.fadeIn();
+                scope.preloader.fadeOut();
             }
         }
     };

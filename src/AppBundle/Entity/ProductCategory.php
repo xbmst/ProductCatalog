@@ -33,7 +33,7 @@ class ProductCategory extends AbstractType
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductCategory", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="parent", referencedColumnName="id")
      */
     private $parent;
 

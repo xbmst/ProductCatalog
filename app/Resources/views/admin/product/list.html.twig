@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% include 'breadcrumbs.html.twig' %}
     <div class="container">
         <div class="row">
-
             <div class="col s12">
                 <div class="row valign-wrapper">
                     <div class="col s9 valign"><h2>Products</h2></div>
@@ -36,10 +36,12 @@
                                 <th>Updated at</th>
                                 {% if is_granted("ROLE_MANAGE_PRODUCT") %}
                                     <th> </th>
+                                    <th> </th>
                                 {% endif %}
                             </tr>
                         </thead>
                         <tbody>
+<<<<<<< HEAD
                         {% if products %}
                             {% for product in products %}
                                 <tr>
@@ -58,6 +60,27 @@
                                 </tr>
                             {% endfor %}
                         {% endif %}
+=======
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ product.id }}</td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.category }}</td>
+                                <td>{{ product.sku }}</td>
+                                <td>{{ product.description }}</td>
+                                <td>{{ product.createdAt|date("d/m/Y") }}</td>
+                                <td>{{ product.updatedAt|date("d/m/Y") }}</td>
+                                {% if is_granted("ROLE_MANAGE_PRODUCT") %}
+                                    <td>
+                                        <a href="{{ path('admin_product_edit', {'id': product.id}) }}"><i class="material-icons grey-text">edit</i></a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('admin_product_delete', {'id': product.id}) }}"><i class="material-icons grey-text">delete</i></a>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+>>>>>>> 0c1086cb0e7a405ea5af606416302da92ff51a23
                         </tbody>
                     </table>
                 </div>

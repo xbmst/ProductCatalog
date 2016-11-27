@@ -35,7 +35,6 @@ class ProductAdminController extends Controller
     public function newAction(Request $request)
     {
         $form = $this->createForm(ProductType::class);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $product = $form->getData();
@@ -80,5 +79,23 @@ class ProductAdminController extends Controller
         return $this->render('admin/product/edit.html.twig', [
             'productForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Security("is_granted('ROLE_MANAGE_PRODUCT')")
+     * @Route("/product/{id}/delete", name="admin_product_delete")
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $this->getDoctrine()->getRepository('AppBundle:Product')
+            ->find($id);
+
+        $em->remove($product);
+        $em->flush();
+
+        $this->addFlash('success', 'Product deleted.');
+
+        return $this->redirectToRoute('admin_product_list');
     }
 }

@@ -7,5 +7,4 @@ $(document).ready(function () {
         filterableColumns: ["name", "description"],
         rowsPerPage: 10
     });
-
 });

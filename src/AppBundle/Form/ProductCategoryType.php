@@ -18,10 +18,12 @@ class ProductCategoryType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('parent', EntityType::class, [
+
                 'class' => ProductCategory::class,
                 'query_builder' => function (ProductCategoryRepository $rep) {
                     return $rep->createOrderedByParentQueryBuilder();
                 },
+                'placeholder' => 'Choose a parent',
             ])
             ->add('active', ChoiceType::class, [
                 'choices' => [

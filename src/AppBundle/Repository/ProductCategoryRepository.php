@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\ProductCategory;
 use Doctrine\ORM\EntityRepository;
 
 class ProductCategoryRepository extends EntityRepository
@@ -38,5 +39,29 @@ class ProductCategoryRepository extends EntityRepository
     {
         return $this->createQueryBuilder('category')
             ->orderBy('category.parent', 'ASC');
+    }
+
+    public function getCategoriesByParent(ProductCategory $parent = null)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->orderBy('c.name', 'ASC');
+
+        if (is_null($parent)) {
+            $qb->andWhere('c.parent IS NULL');
+        } else {
+            $qb->andWhere('c.parent = :parent_id')
+                ->setParameter('parent_id', $parent->getId());
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getAllRootCategories()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT c FROM AppBundle:ProductCategory c WHERE c.parent IS NULL ORDER BY c.name ASC'
+            )
+            ->getResult();
     }
 }
