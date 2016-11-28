@@ -14,6 +14,9 @@ services:
     products_service:
         class: AppBundle\Services\ProductsService
         autowire: true
+    data_processor:
+        class: AppBundle\Services\DataProcessor
+        autowire: true
     form_utils:
         class: AppBundle\Services\FormUtilsService
 #        arguments: ["@security.password_encoder"]

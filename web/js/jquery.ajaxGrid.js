@@ -18,6 +18,7 @@
         gridHeader: null,
         grid: null,
         preloader: null,
+        adminAccess: false,
         pagesAmount: 0,
         submitButton: null,
         context: null,
@@ -55,7 +56,15 @@
             initCategories: function() {
                 scope.categories.each(function() {
                     $(this).on("click", function(e) {
-                        var category = $(this);
+                        var category = $(this),
+                            catID = category.data("category");
+                        if(catID === "0") {
+                            delete scope.state["category"];
+                        }
+                        else {
+                            scope.state["category"] = catID;
+                            scope.methods.categorize(scope.state);
+                        }
                         e.stopPropagation();
                         $(".category.active").toggleClass("active");
                         category.toggleClass("active");
@@ -69,6 +78,7 @@
             initGrid: function() {
                 scope.context.load("/products/get-template");
                 this.get(scope.options.dataUrl, {}, function(response) {
+                    scope.adminAccess = response.admin_access;
                     scope.headers = response.headers;
                     scope.model = response.data;
                     scope.gridHeader = scope.context.children(".grid-header");
@@ -172,6 +182,10 @@
                 this.process(scope.options.dataUrl, data);
             },
 
+            categorize: function(data) {
+                this.process(scope.options.dataUrl, data);
+            },
+
             process: function(url, data, callback) {
                 scope.paginationWrapper.fadeOut();
                 scope.grid.fadeOut(function() {
@@ -206,14 +220,28 @@
                 });
             },
 
+            getEditButton: function(id, a) {
+                return a ? '<a class="edit-item btn-floating waves-effect red" href="/admin/product/'+id+'/edit" target="_blank">' +
+                    '<i class="large material-icons">mode_edit</i>' +
+                    '</a>' : '';
+            },
+
+            getPrefix: function() {
+
+            },
+
             updateView: function() {
-                var id, name, imgUrl, description, img,
+                var id, name, imgUrl, description, img, edit,
                     resultDOM = "";
                 for (var i = 0; i < scope.model.length; i++) {
                     var row = scope.model[i];
+                        edit = scope.methods.getEditButton(row["id"], scope.adminAccess);
                     imgUrl = 'https://unsplash.it/250?random='+row["id"];
-                    resultDOM += "<div class='product col s12 m4 l3 z-depth-1 waves-effect rounded'>";
-                    img = "<div class='image-wrapper'><img src='"+imgUrl+"'></div>";
+                    resultDOM += "<div class='grid-item col s12 m4 l3 z-depth-1 waves-effect rounded'>";
+                    img = "<div class='image-wrapper'>" +
+                        "<img src='"+imgUrl+"'>" +
+                            edit +
+                        "</div>";
                     id = "<div class='prod-info name-id'><b>"+row["id"]+"</b> - "+row["name"]+"</div>";
                     description = "<div class='prod-info description'>"+row["description"]+"</div>";
                     //year = "<div class='year'><b> Added "+row["year"]+"</b></div>";

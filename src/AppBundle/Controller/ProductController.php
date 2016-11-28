@@ -19,9 +19,9 @@ class ProductController extends Controller
     public function getProducts(Request $request)
     {
         $productsService = $this->get('products_service');
-        $products = $productsService->getProducts($request);
-
-        return new JsonResponse($products);
+        $response = $productsService->getData($request);
+        $response['admin_access'] = $this->isGranted(['ROLE_MOD', 'ROLE_ADMIN']) ? true : false;
+        return new JsonResponse($response);
     }
 
     /**

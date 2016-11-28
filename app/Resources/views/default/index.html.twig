@@ -1,12 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <h2>Welcome to Product Catalog</h2>
-                <p>Please, <a href="{{ path('security_login') }}">login</a>, or <a href="{{ path('user_register') }}">register</a>, if you haven't yet.</p>
-            </div>
+    {% block particles %}
+        <div class="blue" id="particles">
+        </div>
+    {% endblock %}
+    <div id="hero" class="row">
+        <h2 class="transition hero-element first col s12">Welcome to AmazingProductCatalog!</h2>
+        <h4 class="transition hero-element second col s12">"We are Uber for e-commerce"</h4>
+        <div class="transition hero-element col s12 row third">
+            <div class="transition col s12 login-link"><a class="btn btn-large waves-effect blue darken-4" href="{{ url("login") }}">Log In</a></div>
+            <div class="transition col s12 or">- or -</div>
+            <div class="transition col s12 register-link"><a class="btn btn-large waves-effect red" href="{{ url("user_register") }}">Register</a></div>
         </div>
     </div>
+    {% include 'footer.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="{{ asset('js/main.js') }}">
 {% endblock %}

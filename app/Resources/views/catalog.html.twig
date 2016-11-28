@@ -3,7 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/ajax-grid.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/catalog.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -37,6 +37,9 @@
                 <div id="categories" class="col s2">
                     <h3>Categories</h3>
                     <ul class=" col s12 base-list rounded z-depth-1">
+                        <li class="category" data-category="0">
+                            <span>All</span>
+                        </li>
                         {% for category in categories %}
                             {{ _self.recursiveCategory(category) }}
                         {% endfor %}
@@ -52,7 +55,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script src="{{ asset('js/jquery.twbsPagination.js') }}"></script>
     <script src="{{ asset('js/jquery.ajaxGrid.js') }}"></script>
     <script src="{{ asset('js/catalog.js') }}"></script>

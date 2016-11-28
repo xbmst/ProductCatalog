@@ -12,6 +12,9 @@ class DefaultController extends Controller
      */
     public function defaultAction()
     {
+        if ($this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute("products_all");
+        }
         return $this->render(
         'default/index.html.twig'
         );

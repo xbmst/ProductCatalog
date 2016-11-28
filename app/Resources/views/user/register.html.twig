@@ -1,19 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'default/index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sign-in.css') }}">
+{% endblock %}
 
 {% block body %}
-    <div class="container">
+    {% block particles %}
+        {{ parent() }}
+        <a class="logo alone" href="{{ url('homepage') }}">ProductCatalog</a>
+    <div class="form-container">
         <div class="row">
             <div class="col s12">
-                <h2>Register</h2>
-
-                {{ form_start(form) }}
+                {{ form_start(form, { 'attr': {'class': 'rounded row'} }) }}
+                    <h4>Register</h4>
                     {{ form_row(form.username, { 'label': 'Full name'}) }}
                     {{ form_row(form.email, { 'label': 'Email'}) }}
                     {{ form_row(form.plainPassword.first, { 'label': 'Password' }) }}
                     {{ form_row(form.plainPassword.second, { 'label': 'Repeat password' }) }}
-                    <button type="submit" class="btn" formnovalidate>Register</button>
+                    <button type="submit" class="btn waves-effect red" formnovalidate>Register</button>
+                    <a class="right btn waves-effect blue darken-4" href="{{ url('login') }}">Back to login</a>
                 {{ form_end(form) }}
             </div>
         </div>
     </div>
+    {% endblock %}
+    {% include 'footer.html.twig' %}
 {% endblock %}

@@ -6,3 +6,95 @@
 .logo {
     font-size: 24px;
 }
+
+.logo.alone {
+    position:absolute;
+    z-index: 1;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+}
+
+.rounded {
+    border-radius: 3px;
+}
+
+.transition {
+    transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
+}
+
+body {
+    overflow-y: hidden;
+}
+
+nav {
+    display: none;
+}
+
+#particles {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#hero {
+    color: #fff;
+    position:absolute;
+    top:47%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+
+.hero-element {
+    text-align: center;
+    display: inline;
+    opacity: 0;
+}
+
+.hero-element a {
+    min-width: 150px;
+}
+
+.hero-element.login-link {
+    margin-top:15px;
+}
+
+.hero-element.first {
+    transform: translateY(40px);
+}
+
+.hero-element.second {
+    transform: translateY(30px);
+}
+
+.hero-element.third {
+    margin-top:10px;
+    transform: translateY(20px);
+}
+
+.hero-appear {
+    opacity: 1;
+    transform: translateY(0) !important;
+}
+
+.or {
+    font-size: 20px;
+    font-style: italic;
+}
+
+footer {
+    position: absolute;
+    width:100%;
+    line-height: 30px;
+    bottom: 0;
+    left:0;
+    text-align: center;
+    color: #fff;
+}
+
+footer a {
+    font-weight: bold;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}

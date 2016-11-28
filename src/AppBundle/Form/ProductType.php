@@ -32,21 +32,6 @@ class ProductType extends AbstractType
             ])
             ->add('sku', TextType::class)
 
-            ->add('createdAt', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => [
-                    'class' => 'js-datepicker',
-                ],
-                'html5' => false,
-            ])
-
-            ->add('updatedAt', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => [
-                    'class' => 'js-datepicker',
-                ],
-                'html5' => false,
-            ])
             ->add('isActive', ChoiceType::class, [
                 'choices' => [
                     'Yes' => true,
