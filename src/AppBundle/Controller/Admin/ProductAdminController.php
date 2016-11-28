@@ -99,4 +99,23 @@ class ProductAdminController extends Controller
 
         return $this->redirectToRoute('admin_product_list');
     }
+
+    /**
+     * @Security("is_granted('ROLE_MANAGE_PRODUCT')")
+     * @Route("/product/{id}/show", name="admin_product_show")
+     */
+    public function showAction($id)
+    {
+        $product = $this->getDoctrine()
+            ->getRepository('AppBundle:Product')
+            ->find($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException('Product not found');
+        }
+
+        return $this->render('admin/product/show.html.twig', array(
+            'product' => $product,
+        ));
+    }
 }
