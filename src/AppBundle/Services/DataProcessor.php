@@ -21,6 +21,28 @@ class DataProcessor
         return ($params['page']-1)*$params['rows_per_page'];
     }
 
+    public function getEndID(array $params)
+    {
+        $endPage  = $this->getPageAmount($params['rows_per_page']);
+        $curPage = $endPage - $params['page'];
+        $end = $curPage*$params['rows_per_page'];
+        if ( isset($params['last_id']) ) {
+            $end = $params['last_id'] - $params['rows_per_page'];
+        }
+        return $end;
+    }
+
+    public function getPageAmount($rowsPerPage)
+    {
+        $rowsPerPage = intval($rowsPerPage);
+        $rowsPerPage = $this->isValidPage($rowsPerPage) ? $rowsPerPage : 10;
+        $pages =  $this->em
+            ->createQuery('SELECT COUNT(p) FROM AppBundle:Product p')
+            ->getSingleScalarResult();
+        $pages = intval($pages);
+        return ceil($pages/$rowsPerPage);
+    }
+
     public function getBasicQueryParams(array $params)
     {
 
@@ -32,19 +54,38 @@ class DataProcessor
     public function getBasicDQL(Request $request)
     {
         $params = $this->handleParams($request);
+        $p = [
+            'start' => $this->getStartID($params),
+        ];
+        $queryParams = [];
         $qb = $this->em->createQueryBuilder();
         $qb->select(array('d'))
             ->from('AppBundle:'.$this->repository, 'd');
-        if(!$this->needsComplexProcessing($params)) {
-            $start = $this->getStartID($params);
-            $qb->setFirstResult($start)
-                ->setMaxResults($params['rows_per_page']);
+        if($this->needsComplexProcessing($params)) {
+            if(!is_null($params['order_by'])) {
+                $qb->orderBy('d.'.$params['sort_field'], $params['order_by'] );
+                if ($params['order_by'] == 'DESC') {
+                    $p['start_id'] = $this->getEndID($params);
+                }
+            }
+            elseif(!is_null($params['filter_field'])) {
+                $qb->andWhere(
+                    $qb->expr()->like('d.'.$params['filter_field'], ':like_expr' )
+                );
+                $queryParams['like_expr'] = '%'.$params['filter_pattern'].'%';
+            }
+            $p['start'] = $this->getStartID($params);
         }
         else {
-
         }
+        $qb->setParameters($queryParams)
+            ->setFirstResult($p['start'])
+            ->setMaxResults($params['rows_per_page']);
 
-        return $qb;
+        return [
+            'query' => $qb,
+            'last_id' => $p['start'],
+        ];
     }
 
     public function needsComplexProcessing($params)
@@ -95,7 +136,7 @@ class DataProcessor
     public function handleParams(Request $request)
     {
         $page = intval($request->query->get('page'));
-        $category = $request->query->get('category');
+        $category = intval($request->query->get('category'));
         $sortField = $request->query->get('sort_field');
         $orderBy = $request->query->get('order_by');
         $filterField = $request->query->get('filter_field');
@@ -123,8 +164,14 @@ class DataProcessor
         $this->setSortingParams($params, $sortField, $orderBy);
         $this->setPage($params, $page);
         $this->setMax($params, $rowsPerPage);
+        $this->setCategory($params, $category);
 
         return $params;
+    }
+
+    public function setCategory(&$result, $category)
+    {
+        $result['category'] = $this->isValidPage($category) ? $category : 1;
     }
 
     public function setRepository($repository)

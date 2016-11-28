@@ -19,8 +19,8 @@ class ProductController extends Controller
     public function getProducts(Request $request)
     {
         $productsService = $this->get('products_service');
-        $response = $productsService->getData($request);
-        $response['admin_access'] = $this->isGranted(['ROLE_MOD', 'ROLE_ADMIN']) ? true : false;
+        $adminAccess = $this->isGranted(['ROLE_MOD', 'ROLE_ADMIN']) ? true : false;
+        $response = $productsService->getData($request, $adminAccess);
         return new JsonResponse($response);
     }
 
@@ -30,7 +30,7 @@ class ProductController extends Controller
     public function getPageAmount(Request $request)
     {
         $rowsPerPage = $request->query->get('rows_per_page');
-        return new JsonResponse($this->get('products_service')->getPageAmount($rowsPerPage));
+        return new JsonResponse($this->get('data_processor')->getPageAmount($rowsPerPage));
     }
 
     /**

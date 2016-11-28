@@ -17,6 +17,7 @@
         rowsWrapper: null,
         gridHeader: null,
         grid: null,
+        prefix: '',
         preloader: null,
         adminAccess: false,
         pagesAmount: 0,
@@ -91,6 +92,7 @@
                     scope.categoriesWrapper = $("#categories");
                     scope.categories = scope.categoriesWrapper.find(".category");
                     scope.submitButton = scope.context.find("#submit-button");
+                    scope.prefix = response.prefix || '';
                     scope.paginationWrapper = scope.context.find(".pagination");
                     scope.activePage = scope.paginationWrapper.find("li.active");
                     scope.methods.getPages(scope.options["rowsPerPage"], function() {
@@ -244,7 +246,6 @@
                         "</div>";
                     id = "<div class='prod-info name-id'><b>"+row["id"]+"</b> - "+row["name"]+"</div>";
                     description = "<div class='prod-info description'>"+row["description"]+"</div>";
-                    //year = "<div class='year'><b> Added "+row["year"]+"</b></div>";
 
                     resultDOM += img+id+description/*+year*/;
                     resultDOM += "</div>";

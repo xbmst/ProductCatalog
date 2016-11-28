@@ -18,13 +18,13 @@
                 <div class="nav-wrapper">
                         <ul class="left hide-on-med-and-down">
                             <li class="waves-effect"><a class="logo" href="#">Catalog</a></li>
-                            {% if is_granted('ROLE_MOD, ROLE_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <li>
-                                    {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 1, 'currentAsLink': true}) }}
+                                    {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 1, 'currentClass': 'active', 'currentAsLink': true}) }}
                                 </li>
                             {% elseif is_granted('ROLE_USER') %}
                                 <li>
-                                    {{ knp_menu_render('AppBundle:Builder:mainMenu', {'depth': 1, 'currentAsLink': true}) }}
+                                    {{ knp_menu_render('AppBundle:Builder:userMenu', {'depth': 1, 'currentClass': 'active', 'currentAsLink': true}) }}
                                 </li>
                             {% endif %}
                         </ul>

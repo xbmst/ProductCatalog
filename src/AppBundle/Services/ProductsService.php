@@ -47,42 +47,32 @@ class ProductsService
     {
         $params = $this->processor->handleParams($request);
         //$queryParams = $this->processor->getBasicQueryParams($params);
-        $querySchema = $this->processor->getBasicDQL($request);
+        $serviceResponse = $this->processor->getBasicDQL($request);
+        $querySchema = $serviceResponse['query'];
+        $lastID = $serviceResponse['last_id'];
         $this->setCategory($params, $params['category']);
         if ($params['category']) {
            $querySchema->andWhere(
                $querySchema->expr()->eq('d.category', $params['category'])
            );
         }
+        if (!$adminAccess) {
+            $querySchema->andWhere(
+                $querySchema->expr()->eq('d.isActive', '1')
+            );
+        }
         $query = $querySchema->getQuery();
         $products = $query->getArrayResult();
 
         return [
+            'admin_access' => $adminAccess,
+            'prefix' => 'product',
+            'last_id' => $lastID,
             'data' => $products,
             'errors' => $params['errors'],
             'headers' => $this->columnNames,
         ];
     }
-
-    /*public function getProducts(Request $request)
-    {
-        $result = [
-            'errors' => null,
-        ];
-        $products = null;
-        $params = $this->handleParams($request);
-        $dqlResult = $this->getData($params);
-        $products = $dqlResult['products'];
-
-        $result['headers'] = $this->columnNames;
-        if ($this->isValidParam($dqlResult['filter_last_id'])) {
-            $result['filter_last_id'] = $dqlResult['filter_last_id'];
-        }
-        $result['data'] = $products;
-        $result['errors'] = $params['errors'];
-
-        return $result;
-    }*/
 
     public function getErrors($products)
     {
@@ -92,17 +82,6 @@ class ProductsService
         else {
             return 'Products with given params not found';
         }
-    }
-
-    public function getPageAmount($rowsPerPage)
-    {
-        $rowsPerPage = intval($rowsPerPage);
-        $rowsPerPage = $this->processor->isValidPage($rowsPerPage) ? $rowsPerPage : 10;
-        $pages =  $this->em
-            ->createQuery('SELECT COUNT(p) FROM AppBundle:Product p')
-            ->getSingleScalarResult();
-        $pages = intval($pages);
-        return ceil($pages/$rowsPerPage);
     }
 
     public function setCategory($result, $category)

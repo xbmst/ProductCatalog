@@ -40,4 +40,20 @@ class Builder implements ContainerAwareInterface
 
         return $menu;
     }
+
+    public function userMenu(FactoryInterface $factory, array $options)
+    {
+        $menu = $factory->createItem('Home');
+
+        $menu->addChild('Home', ['route' => 'homepage']);
+
+        $em = $this->container->get('doctrine')->getManager();
+        $category = $em->getRepository('AppBundle:ProductCategory')->findAll();
+
+        $menu->addChild('Products', [
+            'route' => 'products_all',
+        ]);
+
+        return $menu;
+    }
 }

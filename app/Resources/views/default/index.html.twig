@@ -6,13 +6,25 @@
         </div>
     {% endblock %}
     <div id="hero" class="row">
-        <h2 class="transition hero-element first col s12">Welcome to AmazingProductCatalog!</h2>
-        <h4 class="transition hero-element second col s12">"We are Uber for e-commerce"</h4>
-        <div class="transition hero-element col s12 row third">
-            <div class="transition col s12 login-link"><a class="btn btn-large waves-effect blue darken-4" href="{{ url("login") }}">Log In</a></div>
-            <div class="transition col s12 or">- or -</div>
-            <div class="transition col s12 register-link"><a class="btn btn-large waves-effect red" href="{{ url("user_register") }}">Register</a></div>
-        </div>
+        <h2 class="transition hero-element first col s12">Welcome to AmazingProductCatalog
+            {% if is_granted('ROLE_BROWSE_CATALOG') %},
+                {{ user.userName }}
+            {% endif %}
+            !</h2>
+        {% if is_granted('ROLE_BROWSE_CATALOG') %}
+            <div class="transition hero-element col s12 row third">
+                <a href="{{ url('products_all') }}" class="btn-flat btn-large white-text waves-effect waves-light" style="border: 2px solid #fff">
+                    Go to catalog
+                </a>
+            </div>
+        {% else %}
+            <h4 class="transition hero-element second col s12">"We are Uber for e-commerce"</h4>
+            <div class="transition hero-element col s12 row third">
+                <div class="transition col s12 login-link"><a class="btn btn-large waves-effect blue darken-4" href="{{ url("login") }}">Log In</a></div>
+                <div class="transition col s12 or">- or -</div>
+                <div class="transition col s12 register-link"><a class="btn btn-large waves-effect red" href="{{ url("user_register") }}">Register</a></div>
+            </div>
+        {% endif %}
     </div>
     {% include 'footer.html.twig' %}
 {% endblock %}
